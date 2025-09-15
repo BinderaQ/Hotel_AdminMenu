@@ -1,12 +1,38 @@
 from django.shortcuts import render, redirect
-from .forms import BookingForm
+from .forms import BookingForm, CustomSignUpForm, CustomLogInForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+
+def signup(request):
+    if request.method == 'POST':
+        form = CustomSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('room_list')
+    else:
+        form = CustomSignUpForm()
+    return render(request, 'testing/signup.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = CustomLogInForm(request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('room_list')
+    else:
+        form = CustomLogInForm()
+    return render(request, 'testing/login.html', {'form': form})
+
+
 from datetime import date, timedelta
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 
-
+#
 from .models import Room,Booking
 
 def room_list(request):

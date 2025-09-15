@@ -21,6 +21,8 @@ class Room(models.Model):
     description = models.TextField(blank=True)
     capacity = models.IntegerField()
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
+    text_srcs = models.TextField()
+
     def __str__(self):
         return self.name
 

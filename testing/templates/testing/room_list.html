@@ -2,14 +2,47 @@
 {%block content%}
 
 <h2>Доступні кімнати</h2>
-<a href="{% url 'create_booking' %}" class="btn btn-primary">НЕГИРИРИРИИРИ ТУПІІІ</a>
-<a href="{% url 'show_calendar' %}" class="btn btn-info">КАЛЕНДАРРРРР ТУПИИИИИИИИИИИИИИИИИИИИИЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙ</a>
-<a href="{% url 'my_bookings' %}" class="btn btn-secondary">НЕГРИИ ТУПІ БРОНЮЮТЬТЬТЬТЬТ СУКАА</a>
+<div class="row">
+    <nav class="navbar bg-body-tertiary" style="border-radius: 10px;">
+    <form class="container-fluid justify-content-start">
+        <a href="{% url 'room_list' %}" class="btn btn-outline-success me-2" type="button">Список кімнат</a>
+        <a href="{% url 'my_bookings' %}" style="margin-left: 5px;" class="btn btn-sm btn-outline-secondary" type="button">Мої бронювання</a>
+        <a href="{% url 'create_booking' %}" style="margin-left: 10px;" class="btn btn-sm btn-outline-secondary" type="button">Створити бронювання</a>
+        <a href="{% url 'show_calendar' %}" style="margin-left: 10px;" class="btn btn-sm btn-outline-secondary" type="button">Показати календар</a>
+        {% if not request.user.is_authenticated %}
+            <a href="{% url 'login' %}" style="position:absolute; right: 0; bottom: 0; margin-right: 30px; margin-bottom: 7px;" type="button" class="btn btn-dark">Log In</a>
+            <a href="{% url 'signup' %}" style="position:absolute; right: 0; bottom: 0; margin-right: 120px; margin-bottom: 7px;" type="button" class="btn btn-dark">Sign Up</a>
+        {% else %}
+            <p style="position:absolute; right: 0; bottom: 0; margin-right: 120px; margin-bottom: 12px; background-color: #212529; padding: 5px 12px; border-radius: 5px; color: white;"><i>Ви увійшли як <b style="color: black; background-color: lightgray; padding: 2px 5px; border-radius: 5px;">{{request.user.username }}</b></i></p>
+            <a href="{% url 'logout' %}" style="position:absolute; right: 0; bottom: 0; margin-right: 30px; margin-bottom: 10px;" type="button" class="btn btn-dark">Log Out</a>
+        {% endif %}
+    </form>
 
-<ul>
+</nav>
+
+
+
+<style>
+  @media (min-width: 768px) {
+    .col-4th {
+      flex: 0 0 25%;
+      max-width: 25%;   
+    }
+  }
+</style>
+<div class="row">
     {% for room in rooms %}
-    <li>{{room.name}} - Місткість {{room.capacity}}  Ціна{{room.price_per_night}}</li>
-    {%endfor%}
-</ul>
-    
-{%endblock%}
+        <div class="col-4th mb-4 d-flex align-items-stretch">
+            <div class="card w-100" style="margin-top: 20px;">
+                <img src="{{ room.text_srcs }}" class="card-img-top" alt="IMG not found">
+                <div class="card-body">
+                    <h6 class="card-text">{{room.name}}</h6>
+                    <p style="color: gray;">{{room.description}}</p>
+                    <h4 style="position:absolute; right: 0; bottom: 0; padding-right: 30px; padding-bottom: 5px;">${{room.price_per_night}}</h4>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
