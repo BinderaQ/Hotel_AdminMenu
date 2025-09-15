@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Мої бронювання</h2>
-  <ul>
-    {% for booking in bookings %}
-      <li>{{ booking.room.name }} ({{ booking.start_date }} - {{ booking.end_date }})
-        <a href="{% url 'cancel' booking.id %}" class="btn btn-danger btn-sm">Скасувати</a>
-      </li>
+  
+<style>
+  @media (min-width: 768px) {
+    .col-4th {
+      flex: 0 0 25%;
+      max-width: 25%;   
+    }
+  }
+</style>
+  {% for booking in bookings %}
+        <div class="col-4th mb-4 d-flex align-items-stretch">
+            <div class="card w-100" style="margin-top: 20px;">
+                <div class="card-body">
+                    <h4 class="card-text">{{booking.room.name}}</h4>
+                    <p style="color: gray;">{{booking.description}}</p>
+                    <h7>{{booking.start_date}} - {{ booking.end_date }}</h7>
+                    <a href="{% url 'cancel' booking.id %}" style="margin-top:12px;" class="btn btn-danger btn-sm">Скасувати</a>
+                </div>
+            </div>
+        </div>
     {% empty %}
       <li>У вас немає бронювань</li>
     {% endfor %}
-  </ul>
 {% endblock %}

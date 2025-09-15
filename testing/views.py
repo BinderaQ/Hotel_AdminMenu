@@ -39,6 +39,8 @@ def room_list(request):
     rooms = Room.objects.all()
     return render(request, "testing/room_list.html",{'rooms':rooms})
 
+def success(request):
+    return render(request, "testing/success.html")
 
 def create_booking(request):
     if request.method == "POST":
@@ -55,12 +57,15 @@ def create_booking(request):
                 [request.user.email],
                 fail_silently=False,
             )
-            return redirect("room_list")
+            return redirect("success")
     else:
         form = BookingForm()
     return render(request,"testing/booking_form.html", {"form":form})
 
-
+def logout(request):
+    from django.contrib.auth import logout as auth_logout
+    auth_logout(request)
+    return render(request, 'testing/logout.html')
 
 def show_calendar(request):
     rooms = Room.objects.all()

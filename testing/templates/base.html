@@ -1,4 +1,38 @@
 <!DOCTYPE html>
+<div class="row">
+    <nav class="navbar bg-body-tertiary" style="border-radius: 10px; margin:10px;">
+        <form class="container-fluid justify-content-start">
+            {% if request.path == '/' %}
+                <a href="{% url 'room_list' %}" class="btn btn-success" type="button">Список кімнат</a>
+            {% else %}
+                <a href="{% url 'room_list' %}" class="btn btn-outline-secondary me-2" type="button">Список кімнат</a>
+            {% endif %}
+            {% if request.path == '/my_bookings/' %}
+                <a href="{% url 'my_bookings' %}" style="margin-left: 5px;" class="btn btn-success" type="button">Мої бронювання</a>
+            {% else %}
+                <a href="{% url 'my_bookings' %}" style="margin-left: 5px;" class="btn btn-outline-secondary me-2" type="button">Мої бронювання</a>
+            {% endif %}
+            {% if request.path == '/testing/create/' %}
+                <a href="{% url 'create_booking' %}" style="margin-left: 10px;" class="btn btn-success" type="button">Створити бронювання</a>
+            {% else %}
+                <a href="{% url 'create_booking' %}" style="margin-left: 10px;" class="btn btn-outline-secondary me-2" type="button">Створити бронювання</a>
+            {% endif %}
+            {% if request.path == '/show/' %}
+                <a href="{% url 'show_calendar' %}" style="margin-left: 10px;" class="btn btn-success" type="button">Показати календар</a>
+            {% else %}
+                <a href="{% url 'show_calendar' %}" style="margin-left: 10px;" class="btn btn-outline-secondary me-2" type="button">Показати календар</a>
+            {% endif %}
+            {% if not request.user.is_authenticated %}
+                <a href="{% url 'login' %}" style="position:absolute; right: 0; bottom: 0; margin-right: 30px; margin-bottom: 7px;" type="button" class="btn btn-dark">Log In</a>
+                <a href="{% url 'signup' %}" style="position:absolute; right: 0; bottom: 0; margin-right: 120px; margin-bottom: 7px;" type="button" class="btn btn-dark">Sign Up</a>
+            {% else %}
+                <p style="position:absolute; right: 0; bottom: 0; margin-right: 120px; margin-bottom: 12px; background-color: #212529; padding: 5px 12px; border-radius: 5px; color: white;"><i>Ви увійшли як <b style="color: black; background-color: lightgray; padding: 2px 5px; border-radius: 5px;">{{request.user.username }}</b></i></p>
+                <a href="{% url 'logout' %}" style="position:absolute; right: 0; bottom: 0; margin-right: 30px; margin-bottom: 10px;" type="button" class="btn btn-dark">Log Out</a>
+            {% endif %}
+        </form>
+
+    </nav>
+</div>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -6,7 +40,7 @@
 <body>    
     <div class="container">
         {%block content%}
-
+        
         {%endblock%}
     </div>
 </body>
