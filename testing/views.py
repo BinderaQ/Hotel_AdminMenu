@@ -14,15 +14,24 @@ def signup(request):
         form = CustomSignUpForm()
     return render(request, 'testing/signup.html', {'form': form})
 
+from django.contrib.auth import authenticate, login as auth_login
+
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('room_list')
     if request.method == 'POST':
-        form = CustomLogInForm(request.POST)
+        form = CustomLogInForm(request, data=request.POST) 
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('room_list')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None and user.is_active:
+                auth_login(request, user)
+                return redirect('room_list')
+            else:
+                form.add_error(None, "Invalid username or password")
     else:
-        form = CustomLogInForm()
+        form = CustomLogInForm(request)
     return render(request, 'testing/login.html', {'form': form})
 
 
@@ -35,13 +44,16 @@ from django.core.mail import send_mail
 #
 from .models import Room,Booking
 
+
 def room_list(request):
     rooms = Room.objects.all()
     return render(request, "testing/room_list.html",{'rooms':rooms})
 
+@login_required
 def success(request):
     return render(request, "testing/success.html")
 
+@login_required
 def create_booking(request):
     if request.method == "POST":
         form = BookingForm(request.POST)
@@ -62,11 +74,13 @@ def create_booking(request):
         form = BookingForm()
     return render(request,"testing/booking_form.html", {"form":form})
 
+
 def logout(request):
     from django.contrib.auth import logout as auth_logout
     auth_logout(request)
     return render(request, 'testing/logout.html')
 
+@login_required
 def show_calendar(request):
     rooms = Room.objects.all()
     today = date.today()
