@@ -1,10 +1,14 @@
 {% extends 'base_with_cool_background.html' %}
 {% block content %}
-{% if form.non_field_errors %}
-  <div class="error">
-    {{ form.non_field_errors }}
-  </div>
-{% endif %}
+
+<style>
+.btn.btn-primary.w-100:hover {
+  background-color: rgb(0, 82, 0) !important;
+  border-color: rgb(0, 49, 0);
+  border-width: 2px
+}
+</style>
+
 <div class="row justify-content-center mt-5">
   <div class="col-md-6">
     <div class="card shadow">
@@ -22,8 +26,12 @@
               {% for error in field.errors %}
                 <div class="text-danger small">{{ error }}</div>
               {% endfor %}
-            </div>
           {% endfor %}
+          {% if form.non_field_errors %}
+            <div class="error">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
           <button type="submit" class="btn btn-primary w-100">Log In</button>
         </form>
       </div>
