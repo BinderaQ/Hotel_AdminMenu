@@ -1,0 +1,13 @@
+{% extends 'base_with_cool_background.html' %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-body text-center">
+        <h2 class="card-title mb-4">Успіх!</h2>
+        <p class="card-text">Ви успішно <b>забронювали кімнату</b>.<br>Пітвердження було <b>відправлено на вашу електронну поштову</b> скриньку (email).</p>
+        <a href="{% url 'room_list' %}" class="btn btn-primary mt-3">Назад до списку</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
