@@ -14,8 +14,16 @@
     }
   }
   .card-img-top{
-    height: 300px;
+    height: 50%;
     object-fit: cover;
+  }
+  .book-button{
+    position:absolute; 
+    left: 0; 
+    margin-left: 10px; 
+    margin-bottom: 10px; 
+    bottom: 0; 
+    max-width: 30%;
   }
 </style>
 <div class="row">
@@ -27,7 +35,7 @@
                     <h6 class="card-text">{{room.name}}</h6>
                     <p style="color: gray; padding-bottom: 20px">{{room.description}}</p>
                     <h4 style="position:absolute; right: 0; bottom: 0; padding-right: 30px; padding-bottom: 5px;">${{room.price_per_night}}</h4>
-                    <a href="/testing/create/"style="position:absolute; left: 0; margin-left: 10px; margin-bottom: 10px; bottom: 0; padding-left: 50px; padding-right: 50px;"class="btn btn-primary" type="button"><b>Замовити кімнату</b></a>
+                    <a href="/testing/create/" class="btn btn-primary book-button" type="button"><b>Замовити</b></a>
                 </div>
             </div>
         </div>
